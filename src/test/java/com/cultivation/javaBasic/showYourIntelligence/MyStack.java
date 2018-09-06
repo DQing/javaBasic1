@@ -24,10 +24,7 @@ public class MyStack {
             ensureCapacity();
         }
 
-        // TODO: Please push the value into the storage here.
-        // <--start
-        throw new NotImplementedException();
-        // --end-->
+        storage[count++] = value;
     }
 
     private void ensureCapacity() {
@@ -36,7 +33,10 @@ public class MyStack {
         // TODO: Please create a new array of size newCapacity. And update related fields
         // TODO: You SHOULD NOT USE COLLECTIONS OTHER THAN ARRAY.
         // <--start
-        throw new NotImplementedException();
+        int[] newStorage = new int[newCapacity];
+        System.arraycopy(storage, 0, newStorage, 0, storage.length);
+        storage = newStorage;
+        capacity = newCapacity;
         // --end-->
     }
 
@@ -54,8 +54,8 @@ public class MyStack {
     private int pop() {
         // TODO: Please pop one element from the array.
         // <--start
+        return storage[--count];
         // --end-->
 
-        throw new UnsupportedOperationException("Stack is empty.");
     }
 }

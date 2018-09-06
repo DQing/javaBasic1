@@ -14,7 +14,7 @@ class InheritanceTest {
     void should_be_derived_from_object_class() {
         // TODO: please modify the following code to pass the test
         // <--start
-        final Class<?> expectedSuperClass = null;
+        final Class<?> expectedSuperClass = Object.class;
         // --end-->
 
         assertEquals(expectedSuperClass, SimpleEmptyClass.class.getSuperclass());
@@ -26,7 +26,11 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String[] expected = {};
+        // 先是父类的构造函数
+        final String[] expected = {
+                "SuperClassWithDefaultConstructor.constructor()",
+                "DerivedFromSuperClassWithDefaultConstructor.constructor()"
+        };
         // --end-->
 
         String[] logs = instance.getLogs();
@@ -40,7 +44,11 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String[] expected = {};
+        final String[] expected = {
+                "SuperClassWithDefaultConstructor.constructor()",
+                "DerivedFromSuperClassWithDefaultConstructor.constructor()",
+                "DerivedFromSuperClassWithDefaultConstructor.constructor(int)"
+        };
         // --end-->
 
         String[] logs = instance.getLogs();
@@ -54,7 +62,13 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String[] expected = {};
+        //在继承关系中，子类的所有构造函数（包括无参构造函数（默认构造函数），有参构造函数等），如果不显式声明调用哪种
+        //super，那么都会默认调用super（），即都会默认调用父类的无参构造函数（默认构造函数）。而，如果父类此时没有无参构造
+        //函数存在的话，就会报错。为了修改报错，只能显式调用父类显式声明的构造函数之一或者在父类中增加无参构造函数。
+        final String[] expected = {
+                "SuperClassWithDefaultConstructor.constructor(String)",
+                "DerivedFromSuperClassWithDefaultConstructor.constructor(String)"
+        };
         // --end-->
 
         String[] logs = instance.getLogs();
@@ -62,13 +76,15 @@ class InheritanceTest {
         assertArrayEquals(expected, logs);
     }
 
+    // 衍生
     @Test
     void should_call_most_derived_methods() {
         BaseClassForOverriding instance = new DerivedFromBaseClassForOverriding();
+        System.out.println(instance.getClass());
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String expectedName = null;
+        final String expectedName = "DerivedFromBaseClassForOverriding";
         // --end-->
 
         assertEquals(expectedName, instance.getName());
@@ -80,32 +96,34 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String expectedName = null;
+        final String expectedName = "BaseClassForOverriding->DerivedFromBaseClassForOverridingCallingSuper";
         // --end-->
 
         assertEquals(expectedName, instance.getName());
     }
 
+    @Test
+    void should_test() {
+        DerivedFromSuperClassWithDefaultConstructor[] array = new DerivedFromSuperClassWithDefaultConstructor[4];
+        SuperClassWithDefaultConstructor[] arrayWithBaseType = array;
+//        arrayWithBaseType[arrayWithBaseType.length - 1] = new SuperClassWithDefaultConstructor();
+        System.out.println(array.getClass().getSuperclass());
+        System.out.println(arrayWithBaseType.getClass().getSuperclass());
+    }
+
     @SuppressWarnings({"ConstantConditions", "RedundantCast", "UnnecessaryLocalVariable"})
     @Test
     void should_use_caution_when_dealing_with_array_type() {
-        DerivedFromSuperClassWithDefaultConstructor[] array = new DerivedFromSuperClassWithDefaultConstructor[4];
-        SuperClassWithDefaultConstructor[] arrayWithBaseType = (SuperClassWithDefaultConstructor[])array;
-
-        boolean willThrow = false;
-
+        DerivedFromSuperClassWithDefaultConstructor[] deriveds = new DerivedFromSuperClassWithDefaultConstructor[4];
+        SuperClassWithDefaultConstructor[] supers = deriveds;
+        boolean flag = false;
         try {
-            arrayWithBaseType[arrayWithBaseType.length - 1] = new SuperClassWithDefaultConstructor();
-        } catch (Exception error) {
-            willThrow = true;
+            supers[deriveds.length - 1] = new SuperClassWithDefaultConstructor();
+        } catch (Exception e) {
+            flag = true;
         }
 
-        // TODO: please modify the following code to pass the test
-        // <--start
-        final Optional<Boolean> expected = Optional.empty();
-        // --end-->
-
-        assertEquals(expected.get(), willThrow);
+        assertTrue(flag);
     }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
@@ -116,7 +134,8 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String expected = null;
+        //对象的指向问题
+        final String expected = "NestedDerivedClassWithName";
         // --end-->
 
         assertEquals(expected, derived.getName());
@@ -128,7 +147,7 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String expected = null;
+        final String expected = "BaseClassWithName";
         // --end-->
 
         assertEquals(expected, derived.getName());
@@ -138,12 +157,13 @@ class InheritanceTest {
     @Test
     void should_use_instance_of_to_determine_inheritance_relationship() {
         NestedDerivedClassWithName nested = new NestedDerivedClassWithName();
-
+        // NestedDerivedClassWithName -> DerivedFromBaseClassWithName -> BaseClassWithName
         // TODO: please modify the following code to pass the test
+        // instanceOf 只要可以强转都为true
         // <--start
-        final Optional<Boolean> expectedResult1 = Optional.empty();
-        final Optional<Boolean> expectedResult2 = Optional.empty();
-        final Optional<Boolean> expectedResult3 = Optional.empty();
+        final Optional<Boolean> expectedResult1 = Optional.of(true);
+        final Optional<Boolean> expectedResult2 = Optional.of(true);
+        final Optional<Boolean> expectedResult3 = Optional.of(true);
         // --end-->
 
         assertEquals(expectedResult1.get(), nested instanceof NestedDerivedClassWithName);
@@ -158,12 +178,12 @@ class InheritanceTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Boolean> expectedResult1 = Optional.empty();
-        final Optional<Boolean> expectedResult2 = Optional.empty();
+        final Optional<Boolean> expectedResult1 = Optional.of(true);
+        final Optional<Boolean> expectedResult2 = Optional.of(false);
         // --end-->
-
-        assertEquals(expectedResult1.get(), integer instanceof Integer );
-        assertEquals(expectedResult2.get(), integer instanceof Long );
+        System.out.println(integer.getClass());
+        assertEquals(expectedResult1.get(), integer instanceof Integer);
+        assertEquals(expectedResult2.get(), integer instanceof Long);
     }
 
     @SuppressWarnings({"SimplifiableJUnitAssertion", "EqualsWithItself"})
@@ -211,6 +231,14 @@ class InheritanceTest {
         Integer instanceWithOtherType = new Integer(1990);
 
         assertFalse(person.equals(instanceWithOtherType));
+    }
+
+    @Test
+    void should_test_string_equal() {
+        // String 中重写了object的equal方法，比较的是值
+        String string1 = "1234";
+        String string2 = "1234";
+        assertTrue(string1.equals(string2));
     }
 
     @SuppressWarnings("SimplifiableJUnitAssertion")

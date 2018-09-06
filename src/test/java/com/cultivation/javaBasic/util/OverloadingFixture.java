@@ -14,6 +14,10 @@ public class OverloadingFixture {
         return "methodWithTwoParameters(String, Integer)";
     }
 
+    public String methodWithTwoParameters(String string, int integer) {
+        return "methodWithTwoParameters(String, int)";
+    }
+
     public String methodWithTwoParameters(String string, Number number) {
         return "methodWithTwoParameters(String, Number)";
     }

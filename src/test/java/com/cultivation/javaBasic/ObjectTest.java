@@ -20,7 +20,7 @@ class ObjectTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Boolean> expected = Optional.empty();
+        final Optional<Boolean> expected = Optional.of(true);
         // --end-->
 
         assertEquals(expected.get(), referenceToSameObject);
@@ -36,7 +36,7 @@ class ObjectTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Boolean> expected = Optional.empty();
+        final Optional<Boolean> expected = Optional.of(false);
         // --end-->
 
         assertEquals(expected.get(), referenceToSameObject);
@@ -113,7 +113,7 @@ class ObjectTest {
     void should_choose_method_at_compile_time() {
         OverloadingFixture fixture = new OverloadingFixture();
 
-        String actual = fixture.methodWithOneParameter((Object)"I am a string");
+        String actual = fixture.methodWithOneParameter((Object) "I am a string");
 
         // TODO: please modify the following code to pass the test. You should write the result directly.
         // <--start
@@ -131,9 +131,10 @@ class ObjectTest {
 
         String actual = fixture.methodWithTwoParameters(name, integer);
 
+
         // TODO: please modify the following code to pass the test. You should write the result directly.
         // <--start
-        final String expected = null;
+        final String expected = "methodWithTwoParameters(String, int)";
         // --end-->
 
         assertEquals(expected, actual);
@@ -158,10 +159,12 @@ class ObjectTest {
         InitializationOrderClass instance = new InitializationOrderClass();
         String[] logs = InitializationOrderClass.getLogs();
 
-        // TODO: please modify the following code to pass the test
-        // <--start
-        final String[] expected = {};
-        // --end-->
+        final String[] expected = {
+                "Field Initializer",
+                "Initialization Block",
+                "Constructor with argument",
+                "Default constructor"
+        };
 
         assertArrayEquals(expected, logs);
     }
@@ -182,7 +185,7 @@ class ObjectTest {
     @SuppressWarnings("RedundantArrayCreation")
     @Test
     void should_get_message_of_var_length_parameters_2() {
-        final String message = getMessageOfVarLengthParameters(new Object[] {1, 2, 3});
+        final String message = getMessageOfVarLengthParameters(1, 2, 3, new Object[]{1, 2, 3});
 
         // TODO: please modify the following code to pass the test
         // <--start

@@ -1,12 +1,12 @@
 package com.cultivation.javaBasic;
 
+import com.cultivation.javaBasic.demo.Char;
 import org.junit.jupiter.api.Test;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class StringTest {
     @SuppressWarnings({"StringEquality", "ConstantConditions"})
@@ -19,7 +19,7 @@ class StringTest {
         //
         // It is really easy to pass the test. But you have to tell why.
         // <--start
-        final Optional<Boolean> areSame = Optional.empty();
+        final Optional<Boolean> areSame = Optional.of(false);
         // --end-->
 
         assertEquals("The new string", modifiedString);
@@ -36,10 +36,11 @@ class StringTest {
         //
         // It is really easy to pass the test. But you have to tell why.
         // <--start
-        final Optional<Boolean> areSame = Optional.empty();
+        final Optional<Boolean> areSame = Optional.of(false);
         // --end-->
 
         assertEquals("The string with tailing space.", modifiedString);
+        assertNotSame(originalString, modifiedString);
         assertEquals(areSame.get(), originalString == modifiedString);
     }
 
@@ -54,11 +55,17 @@ class StringTest {
         //
         // It is really easy to pass the test. But you have to tell why.
         // <--start
-        final Optional<Boolean> areSame = Optional.empty();
+        final Optional<Boolean> areSame = Optional.of(false);
         // --end-->
 
         assertEquals("Part one. Part two.", originalString);
         assertEquals(areSame.get(), originalString == copyOfOriginalString);
+    }
+
+    @Test
+    void should_test_string_is_a_char_array() {
+        String string = new String();
+        System.out.println("---" + string);
     }
 
     @SuppressWarnings("unused")
@@ -109,7 +116,7 @@ class StringTest {
         String[] words = null;
         // --End-->
 
-        assertArrayEquals(new String[] {"This", "is", "Mike"}, words);
+        assertArrayEquals(new String[]{"This", "is", "Mike"}, words);
     }
 
     @SuppressWarnings({"unused", "ConstantConditions"})
@@ -122,7 +129,7 @@ class StringTest {
         String[] words = null;
         // --End-->
 
-        assertArrayEquals(new String[] {"This", "is", "Mike"}, words);
+        assertArrayEquals(new String[]{"This", "is", "Mike"}, words);
     }
 
     @SuppressWarnings({"unused", "StringBufferReplaceableByString", "MismatchedQueryAndUpdateOfStringBuilder"})
@@ -134,14 +141,29 @@ class StringTest {
         // TODO: Create string using StringBuilder
         // <--Start
         StringBuilder builder = new StringBuilder();
+        for (int row = 0; row < height; row++) {
+            builder.append("|");
+            getColumnString(width, builder, row);
+            builder.append("|\n");
+        }
         // --End-->
 
         final String expected =
-            "|---|\n" +
-            "|   |\n" +
-            "|---|\n";
+                "|---|\n" +
+                        "|   |\n" +
+                        "|---|\n";
 
         assertEquals(expected, builder.toString());
+    }
+
+    private void getColumnString(int width, StringBuilder builder, int row) {
+        for (int column = 0; column < width - 2; column++) {
+            if (row == 1) {
+                builder.append(" ");
+            } else {
+                builder.append("-");
+            }
+        }
     }
 
     @SuppressWarnings("unused")
@@ -149,7 +171,7 @@ class StringTest {
     void should_calculate_checksum_of_a_string() {
         final String text = "A quick brown fox jumps over a lazy dog.";
 
-        int sum = 0;
+        int sum = text.trim().chars().sum();
         // TODO: Write some code to calculate the checksum of the string. The checksum is the sum of each string char.
         // <--Start
         // --End-->
@@ -180,10 +202,22 @@ class StringTest {
 
         // TODO: Modify the following code to create new string from original String
         // <--Start
-        final String reversed = null;
+        final String reversed = "";
         // --End-->
 
         assertEquals("654321", reversed);
+    }
+
+    @Test
+    void name() {
+        final char[] chars = new char[]{'6', '5', '4', '3', '2', '1'};
+        for (int i = 0; i < chars.length / 2; i++) {
+            char item = chars[i];
+            chars[i] = chars[chars.length - 1 - i];
+            chars[chars.length - 1 - i] = item;
+        }
+        char[] excepted = new char[]{'1', '2', '3', '4', '5', '6'};
+        assertArrayEquals(excepted, chars);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -208,15 +242,10 @@ class StringTest {
     @Test
     void should_get_code_point_count() {
         final String withSurrogatePairs =
-            new String(Character.toChars(0x20B9F)) + " is a character that you may not know";
+                new String(Character.toChars(0x20B9F)) + " is a character that you may not know";
 
-        // TODO: please modify the following code to pass the test
-        // <--start
-        // TODO: please write down the result directly.
-        final int expectedCharLength = 0;
-        // TODO: please call some method to calculate the result.
-        final int actualCodePointLength = 0;
-        // --end-->
+        final int expectedCharLength = 39;
+        final int actualCodePointLength = withSurrogatePairs.codePointCount(0, withSurrogatePairs.length());
 
         assertEquals(expectedCharLength, withSurrogatePairs.length());
         assertEquals(38, actualCodePointLength);
@@ -225,13 +254,13 @@ class StringTest {
     @Test
     void should_copy_all_code_point_to_array() {
         final String withSurrogatePairs =
-            new String(Character.toChars(0x20B9F)) + " is funny";
+                new String(Character.toChars(0x20B9F)) + " is funny";
 
         final int[] codePoints = getCodePointsFromString(withSurrogatePairs);
 
         assertArrayEquals(
-            new int[] {0x20B9F, (int)' ', (int)'i', (int)'s', (int)' ', (int)'f', (int)'u', (int)'n', (int)'n', (int)'y'},
-            codePoints);
+                new int[]{0x20B9F, (int) ' ', (int) 'i', (int) 's', (int) ' ', (int) 'f', (int) 'u', (int) 'n', (int) 'n', (int) 'y'},
+                codePoints);
     }
 
     @Test
@@ -250,10 +279,16 @@ class StringTest {
     }
 
     private int[] getCodePointsFromString(String withSurrogatePairs) {
-        // TODO: please implement the method to the pass the test
-        // <--start
-        throw new NotImplementedException();
-        // --end-->
+        int length = withSurrogatePairs.codePointCount(0,withSurrogatePairs.length());
+        int codePointCount = Character.codePointCount(withSurrogatePairs, 0, length);
+        int[] codePointArray = new int[codePointCount];
+        int codePointIndex = 0;
+
+        for (int charIndex = 0, cp; charIndex < length; charIndex += Character.charCount(cp)) {
+            cp = withSurrogatePairs.codePointAt(charIndex);
+            codePointArray[codePointIndex++] = cp;
+        }
+        return codePointArray;
     }
 
     /*
