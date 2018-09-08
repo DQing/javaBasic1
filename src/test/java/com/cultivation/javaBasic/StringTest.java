@@ -279,14 +279,17 @@ class StringTest {
     }
 
     private int[] getCodePointsFromString(String withSurrogatePairs) {
-        int length = withSurrogatePairs.codePointCount(0,withSurrogatePairs.length());
+        int length = withSurrogatePairs.length();
+        // 优化，不越界
         int codePointCount = Character.codePointCount(withSurrogatePairs, 0, length);
         int[] codePointArray = new int[codePointCount];
+
         int codePointIndex = 0;
 
-        for (int charIndex = 0, cp; charIndex < length; charIndex += Character.charCount(cp)) {
-            cp = withSurrogatePairs.codePointAt(charIndex);
-            codePointArray[codePointIndex++] = cp;
+        for (int charIndex = 0, value; charIndex < length; charIndex += Character.charCount(value)) {
+            int codePointAt = Character.codePointAt(withSurrogatePairs, charIndex);
+            codePointArray[codePointIndex++] = codePointAt;
+            value = codePointAt;
         }
         return codePointArray;
     }

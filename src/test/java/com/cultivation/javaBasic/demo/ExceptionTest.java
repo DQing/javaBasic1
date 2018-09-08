@@ -16,7 +16,7 @@ public class ExceptionTest {
 
     public static void main(String[] args) {
         ExceptionTest exceptionTest = new ExceptionTest();
-        exceptionTest.c();
+//        exceptionTest.c();
     }
 }
 

@@ -25,6 +25,10 @@ public class SuperClass {
         return 0;
     }
 
+    public void getName() {
+
+    }
+
 
     private static int getB() {
         System.out.println("SuperClass with static field");

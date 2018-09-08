@@ -8,6 +8,7 @@ public class DeriverClass extends SuperClass {
         System.out.println("DeriverClass no parameter constructor");
     }
 
+
     public DeriverClass(String string) {
         System.out.println("DeriverClass with parameter constructor");
     }
@@ -25,6 +26,11 @@ public class DeriverClass extends SuperClass {
     private int getA() {
         System.out.println("DeriverClass with field");
         return 0;
+    }
+
+    @Override
+    public void getName() {
+        super.getName();
     }
 
     static int b = getB();

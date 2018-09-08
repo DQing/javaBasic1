@@ -176,12 +176,13 @@ class InheritanceTest {
     void should_use_instance_of_only_in_inheritance_relationship() {
         final Object integer = new Integer(42);  // the magic of life
 
+        Integer integer1 = (Integer) integer;
+//        Long number = (Long) integer;
         // TODO: please modify the following code to pass the test
         // <--start
         final Optional<Boolean> expectedResult1 = Optional.of(true);
         final Optional<Boolean> expectedResult2 = Optional.of(false);
         // --end-->
-        System.out.println(integer.getClass());
         assertEquals(expectedResult1.get(), integer instanceof Integer);
         assertEquals(expectedResult2.get(), integer instanceof Long);
     }
