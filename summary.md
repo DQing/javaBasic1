@@ -105,6 +105,7 @@ public class IterableTest implements Iterable {
 | long      |  显 | 显  | 显  | -  | 隐  |  隐 |
 | float     |  显 | 显  | 显  | 显  | -  | 隐  |
 | double    |  显 | 显  | 显  | 显  | 显  | -  |
+
 损失精度需要强制转换，short转byte编译期优化的时候，在一定的区间可以隐式转换
 
 - Double,Float 的infinite Nan
@@ -162,7 +163,7 @@ public class ExceptionTest {
 ```
 进栈(c-b-a),出错时的错误栈(a-b-c)
 
-###四舍五入
+### 四舍五入
 
 ```
  @Test
