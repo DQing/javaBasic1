@@ -42,7 +42,7 @@ class GenericTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Boolean> expected = Optional.empty();
+        final Optional<Boolean> expected = Optional.of(true);
         // --end-->
 
         assertEquals(expected.get(), pair.getClass().equals(pairWithDifferentTypeParameter.getClass()));
@@ -64,7 +64,7 @@ class GenericTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Boolean> expected = Optional.empty();
+        final Optional<Boolean> expected = Optional.of(true);
         // --end-->
 
         assertEquals(expected.get(), willThrow);
@@ -90,7 +90,13 @@ class GenericTest {
     // <--start
     @SuppressWarnings("unused")
     private static <T extends Number & Comparable<T>> T min(T[] values) {
-        throw new NotImplementedException();
+        T min = values[0];
+        for (int index = 1; index < values.length; index++) {
+            if (min.compareTo(values[index]) > 0) {
+                min = values[index];
+            }
+        }
+        return min;
     }
     // --end-->
 
@@ -98,7 +104,14 @@ class GenericTest {
     // <--start
     @SuppressWarnings("unused")
     private static void swap(Pair<?> pair) {
-        throw new NotImplementedException();
+        parameterSwap(pair);
+    }
+
+    private static <T> void parameterSwap(Pair<T> pair) {
+        T first = pair.getFirst();
+        T second = pair.getSecond();
+        pair.setFirst(second);
+        pair.setSecond(first);
     }
 
     // TODO: You can add additional method within the range if you like

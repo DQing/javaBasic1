@@ -69,22 +69,6 @@ class BooleanOperatorsTest {
     }
 
     @Test
-    void should_test() {
-        int value1 = 0x0111;
-        int value2 = 0x2000; //0x2000 0x0100
-        int value3 = 0x0100; // =0x000
-        int result = value1 & value2 | value3;
-
-        int value = 0x0000_ffff; //0xffff0000 0x0111
-        int result1 = value1 & ~value; // 0x 01110000
-        int excepted = 0x11110000;
-
-        int excepted1 = 0x0100;
-        assertEquals(excepted, result1);
-        assertEquals(excepted1, result);
-    }
-
-    @Test
     void should_do_bitwise_or_boolean_operation() {
         final int value = 0x1234_0000;
         final int mask = 0x0000_abcd;
