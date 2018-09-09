@@ -9,8 +9,9 @@ class IntegerTypeTest {
     @Test
     void should_get_range_of_primitive_int_type() {
         final int maximum = 0x7fffffff;
+        // 0111
         final int minimum = 0x80000000;
-
+        // 1000
         // TODO: You should not write concrete number here. Please find a property or constant instead.
         // <!--start
         final int maximumSymbol = Integer.MAX_VALUE;
@@ -35,11 +36,41 @@ class IntegerTypeTest {
     @Test
     void should_test_first() {
         for (int i = Integer.MIN_VALUE; i < 0; i++) {
-//            for (int j = 0; j < 31; j++) {
-//                assertTrue((j << i) > 0);
-//            }
             assertEquals(1, i >>> 31);
         }
+    }
+
+    @Test
+    void should_test_move() {
+        int number1 = 1;
+        int i = number1 >> 1;
+        // 0001
+        // 0000
+        int i1 = number1 << 1;
+        // 0001
+        // 0010
+        int number2 = 0x7fff_ffff;
+        int i2 = number2 << 1;
+        //  0xffff_fffE
+        // 0x8000_0000
+        assertEquals(0, i);
+        assertEquals(2, i1);
+//        System.out.println(i2);
+        System.out.println(0x8000_0000);
+        System.out.println(0x8000_0000 + 1);
+        assertEquals(0xffff_fffE, i2);
+    }
+
+    @Test
+    void should_test_no_sign_move() {
+        int number3 = 0x7fff_ffff;
+        //0x3fff_ffff
+        int i3 = number3 >>> 1;
+        assertEquals(0x3fff_ffff, i3);
+
+        int number = 0x8000_0000;
+        int i = number >>> 1;
+        assertEquals(0x4000_0000, i);
     }
 
     @Test

@@ -19,7 +19,7 @@ class InnerClassTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Integer> expected = Optional.empty();
+        final Optional<Integer> expected = Optional.of(2019);
         // --end-->
 
         assertEquals(expected.get().intValue(), instance.getYear());
@@ -28,17 +28,12 @@ class InnerClassTest {
     @SuppressWarnings("ConstantConditions")
     @Test
     void should_refer_inner_class_from_outside() {
-        InnerClassUpdateField instance = new InnerClassUpdateField();
-
-        InnerClassUpdateField.YearIncrementer incrementer = instance.new YearIncrementer();
-        incrementer.increment();
-
-        // TODO: please modify the following code to pass the test
-        // <--start
-        final Optional<Integer> expected = Optional.empty();
-        // --end-->
-
-        assertEquals(expected.get().intValue(), instance.getYear());
+        InnerClassUpdateField innerClassUpdateField = new InnerClassUpdateField();
+        InnerClassUpdateField.YearIncrementer yearIncrementer = innerClassUpdateField.new YearIncrementer();
+        yearIncrementer.increment();
+        int actual = innerClassUpdateField.getYear();
+        int expected = 2019;
+        assertEquals(expected, actual);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -49,7 +44,7 @@ class InnerClassTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Integer> expected = Optional.empty();
+        final Optional<Integer> expected = Optional.of(2019);
         // --end-->
 
         assertEquals(expected.get().intValue(), instance.getYear());
@@ -63,7 +58,7 @@ class InnerClassTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final Optional<Integer> expected = Optional.empty();
+        final Optional<Integer> expected = Optional.of(2019);
         // --end-->
 
         assertEquals(expected.get().intValue(), instance.getYear());
@@ -76,7 +71,7 @@ class InnerClassTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final String expected = null;
+        final String expected = "Hello";
         // --end-->
 
         assertEquals(expected, inner.getName());

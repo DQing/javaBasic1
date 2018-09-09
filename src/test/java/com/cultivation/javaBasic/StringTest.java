@@ -278,12 +278,15 @@ class StringTest {
         assertEquals(expectedText, text);
     }
 
+    @Test
+    void should_codePoint() {
+        char[] chars = Character.toChars(0X10FFFF);
+        assertEquals(2, chars.length);
+    }
+
     private int[] getCodePointsFromString(String withSurrogatePairs) {
         int length = withSurrogatePairs.length();
-        // 优化，不越界
-        int codePointCount = Character.codePointCount(withSurrogatePairs, 0, length);
-        int[] codePointArray = new int[codePointCount];
-
+        int[] codePointArray = new int[length];
         int codePointIndex = 0;
 
         for (int charIndex = 0, value; charIndex < length; charIndex += Character.charCount(value)) {
@@ -291,7 +294,9 @@ class StringTest {
             codePointArray[codePointIndex++] = codePointAt;
             value = codePointAt;
         }
-        return codePointArray;
+        int[] result = new int[codePointIndex];
+        System.arraycopy(codePointArray, 0, result, 0, result.length);
+        return result;
     }
 
     /*

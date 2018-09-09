@@ -57,10 +57,23 @@ public class IterableTest implements Iterable {
 ## day2
 - 位移运算
 ```
-<< 左移运算符，num << 1,相当于num乘以2
->> 右移运算符，num >> 1,相当于num除以2
+<< 左移运算符，num << 1,相当于num乘以2(符号也随着改变)
+>> 右移运算符，num >> 1,相当于num除以2(符号也随着改变)
 >>> 无符号右移，忽略符号位，空位都以0补齐
+    @Test
+    void should_test_move() {
+        int number1 = 1;
+        int i = number1 >> 1;
+        // 0001
+        // 0000
+        int i1 = number1 << 1;
+        // 0001
+        // 0010
+        assertEquals(0, i);
+        assertEquals(2, i1);
+    }
 ```
+
 - 0x ffff 默认int型
 - 0x80000000和-0x80000000都是负数
 
@@ -197,6 +210,10 @@ public class ExceptionTest {
 ### String
 - final string 则引用不可变，不可重新赋值
 - codePoint可代表多个char
+```
+  public static final int MIN_CODE_POINT = 0x000000;  //codePoint 最小值
+  public static final int MAX_CODE_POINT = 0X10FFFF;  //codePoint 最大值
+```
 - java parameter vs argument(形参，实参)
 - “==” tests for reference equality (whether they are the same object).
 .equals() tests for value equality (whether they are logically "equal").
@@ -368,7 +385,7 @@ can be type
 - 被闭包捕获的变量不可更改
 - 被闭包捕获的变量，在闭包中变量名发生改变
 
-```java
+```
  int captured = 5;
     StringFunc lambda = () -> captured + " has been captured.";
     Field[] fields = lambda.getClass().getDeclaredFields();
