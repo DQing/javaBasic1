@@ -255,8 +255,8 @@ DeriverClass no parameter constructor  子类的无参构造函数
 ```
 https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#isInstance-java.lang.Object-
 ```
-- null 可以是任何类型，在代码中只要没有使用null的方法，就不会报空指针错误
-
+- null 可以赋值给是Object类型，在代码中只要没有使用null的方法，就不会报空指针错误
+- null 不可以赋值给boolean类型
 ```
 public class NullTest {
     public String getName(String string) {
