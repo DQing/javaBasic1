@@ -371,7 +371,7 @@ can be type
 3.传递性
 4.一致性
 4.parameter不能为null
-5.equals不能用于判断父子类 
+5.equals尽量不要用于判断父子类（转换为同一等级才能比较） 
 ```
 
 ```
