@@ -378,7 +378,7 @@ can be type
 判断相等强度：identity > equality > hash code
 1. identity 唯一在内存中标识一个对象，强度最大
 2. equality 定义自己的相等，对于内存中不同的对象，field相等即可
-3. hash code 对一群散列的值进行分类，equal相等，hashcode必须相等，但hashcode相等，equal不一定相等
+3. hash code 对一群散列的值进行分类，equal相等，hash code必须相等，但hash code相等，equal不一定相等
 ```
 ### 闭包
 - this 指当前类实例
