@@ -1,26 +1,76 @@
 package com.cultivation.javaBasic;
 
 import org.junit.jupiter.api.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class IntegerTypeTest {
 
     @Test
     void should_get_range_of_primitive_int_type() {
         final int maximum = 0x7fffffff;
+        // 0111
         final int minimum = 0x80000000;
-
+        // 1000
         // TODO: You should not write concrete number here. Please find a property or constant instead.
         // <!--start
-        final int maximumSymbol = 0;
-        final int minimumSymbol = 0;
+        final int maximumSymbol = Integer.MAX_VALUE;
+        final int minimumSymbol = Integer.MIN_VALUE;
         // --end-->
 
         assertEquals(maximumSymbol, maximum);
         assertEquals(minimumSymbol, minimum);
+    }
+
+    @Test
+    void should_return_nagetive() {
+        final int maximum = 10;
+        final int minimum = Integer.MIN_VALUE;
+        //  -2147483648
+        int max = Integer.highestOneBit(maximum);
+        int min = Integer.highestOneBit(minimum);
+        assertTrue(max > 0);
+        assertTrue(min < 0);
+    }
+
+    @Test
+    void should_test_first() {
+        for (int i = Integer.MIN_VALUE; i < 0; i++) {
+            assertEquals(1, i >>> 31);
+        }
+    }
+
+    @Test
+    void should_test_move() {
+        int number1 = 1;
+        int i = number1 >> 1;
+        // 0001
+        // 0000
+        int i1 = number1 << 1;
+        // 0001
+        // 0010
+        int number2 = 0x7fff_ffff;
+        int i2 = number2 << 1;
+        //  0xffff_fffE
+        // 0x8000_0000
+        assertEquals(0, i);
+        assertEquals(2, i1);
+//        System.out.println(i2);
+        System.out.println(0x8000_0000);
+        System.out.println(0x8000_0000 + 1);
+        assertEquals(0xffff_fffE, i2);
+    }
+
+    @Test
+    void should_test_no_sign_move() {
+        int number3 = 0x7fff_ffff;
+        //0x3fff_ffff
+        int i3 = number3 >>> 1;
+        assertEquals(0x3fff_ffff, i3);
+
+        int number = 0x8000_0000;
+        int i = number >>> 1;
+        assertEquals(0x4000_0000, i);
     }
 
     @Test
@@ -30,23 +80,24 @@ class IntegerTypeTest {
 
         // TODO: You should not write concrete number here. Please find a property or constant instead.
         // <!--start
-        final short maximumSymbol = 0;
-        final short minimumSymbol = 0;
+        final short maximumSymbol = Short.MAX_VALUE;
+        final short minimumSymbol = Short.MIN_VALUE;
         // --end-->
 
         assertEquals(maximumSymbol, maximum);
+
         assertEquals(minimumSymbol, minimum);
     }
 
     @Test
     void should_get_range_of_primitive_long_type() {
-        final long maximum = 0x7fffffffffffffffL;
+        final long maximum = 0x7fff_ffff_ffff_ffffL;
         final long minimum = -0x8000000000000000L;
 
         // TODO: You should not write concrete number here. Please find a property or constant instead.
         // <!--start
-        final long maximumSymbol = 0;
-        final long minimumSymbol = 0;
+        final long maximumSymbol = Long.MAX_VALUE;
+        final long minimumSymbol = Long.MIN_VALUE;
         // --end-->
 
         assertEquals(maximumSymbol, maximum);
@@ -60,10 +111,10 @@ class IntegerTypeTest {
 
         // TODO: You should not write concrete number here. Please find a property or constant instead.
         // <!--start
-        final byte maximumSymbol = 0;
-        final byte minimumSymbol = 0;
+        final byte maximumSymbol = Byte.MAX_VALUE;
+        final byte minimumSymbol = Byte.MIN_VALUE;
         // --end-->
-
+        System.out.println((short) 0x8000 + 1);
         assertEquals(maximumSymbol, maximum);
         assertEquals(minimumSymbol, minimum);
     }
@@ -75,7 +126,7 @@ class IntegerTypeTest {
 
         // TODO: Please correct the value to pass the test.
         // <--start
-        final int expectedResult = 0;
+        final int expectedResult = Integer.MIN_VALUE;
         // --end-->
 
         assertEquals(expectedResult, theNumberWillOverflow);
@@ -88,7 +139,7 @@ class IntegerTypeTest {
 
         // TODO: Please correct the value to pass the test.
         // <--start
-        final int expectedResult = 0;
+        final int expectedResult = Integer.MAX_VALUE;
         // --end-->
 
         assertEquals(expectedResult, theNumberWillUnderflow);
@@ -115,8 +166,8 @@ class IntegerTypeTest {
 
         // TODO: please modify the following lines to pass the test
         // <!--start
-        final double expectedResult1 = Double.POSITIVE_INFINITY;
-        final double expectedResult2 = Double.POSITIVE_INFINITY;
+        final double expectedResult1 = 0;
+        final double expectedResult2 = 3;
         // --end-->
 
         assertEquals(expectedResult1, result1, +1.0E-05);
@@ -126,14 +177,24 @@ class IntegerTypeTest {
     @Test
     void should_truncate_number_when_casting() {
         final int integer = 0x0123_4567;
-        final short smallerInteger = (short)integer;
+        final short smallerInteger = (short) integer;
 
         // TODO: please modify the following lines to pass the test
         // <!--start
-        final short expected = 0;
+        final short expected = 0x4567;
         // --end-->
 
         assertEquals(expected, smallerInteger);
+    }
+
+    @Test
+    void should_int_to_short() {
+        final int integer = 0x0123_8567;
+        final short smallerInteger = (short) integer;
+        int oneBit = Integer.highestOneBit(integer);
+        int anotherBit = Integer.highestOneBit(smallerInteger);
+        assertTrue(oneBit > 0);
+        assertTrue(anotherBit < 0);
     }
 
     @Test
@@ -144,8 +205,8 @@ class IntegerTypeTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final int expectedCurrentInteger = 0;
-        final int expectedResult = 0;
+        final int expectedCurrentInteger = 4;
+        final int expectedResult = 3;
         // --end-->
 
         assertEquals(expectedCurrentInteger, integer);
@@ -160,18 +221,18 @@ class IntegerTypeTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final int expectedCurrentInteger = 0;
-        final int expectedResult = 0;
+        final int expectedCurrentInteger = 4;
+        final int expectedResult = 4;
         // --end-->
 
         assertEquals(expectedCurrentInteger, integer);
         assertEquals(expectedResult, result);
+
     }
 
     private int add(int left, int right) {
         // TODO: Please implement the method. Adding two numbers.
-        // The method should throw ArithmeticException if overflow or underflow happens.
-        throw new NotImplementedException();
+        return Math.addExact(left, right);
     }
 
     /*

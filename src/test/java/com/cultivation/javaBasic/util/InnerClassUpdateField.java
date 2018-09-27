@@ -18,7 +18,7 @@ public class InnerClassUpdateField {
     @SuppressWarnings("WeakerAccess")
     public class YearIncrementer {
         public void increment() {
-            ++InnerClassUpdateField.this.year;
+            ++year;
         }
     }
 }

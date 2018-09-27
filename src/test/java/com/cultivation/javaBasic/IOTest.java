@@ -3,12 +3,13 @@ package com.cultivation.javaBasic;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,6 +19,7 @@ class IOTest {
     void should_read_write_file_from_file_stream(@TempDirectory.TempDir Path dir) throws Exception {
         final String message = "Hello world!" + System.lineSeparator();
         Path filePath = dir.resolve("sample.txt");
+        System.out.println(filePath);
 
         writeAllText(message, filePath, StandardCharsets.UTF_8);
         assertEquals(message, readAllText(filePath, StandardCharsets.UTF_8));
@@ -27,7 +29,14 @@ class IOTest {
     private static void writeAllText(String message, Path filePath, Charset charset) throws IOException {
         // TODO: please implement the method to writer text to file using `PrintWriter`.
         // <--start
-        throw new NotImplementedException();
+        PrintWriter printWriter;
+        try {
+            printWriter = new PrintWriter(filePath.toString(), charset.name());
+            printWriter.write(message);
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // --end-->
     }
 
@@ -36,7 +45,16 @@ class IOTest {
     private static String readAllText(Path path, Charset charset) throws IOException {
         // TODO: please implement the method to read text from file using `Files` helper methods.
         // <--start
-        throw new NotImplementedException();
+        List<String> lines;
+        StringBuilder text = new StringBuilder();
+        try {
+            lines = Files.readAllLines(path, charset);
+            lines.forEach(text::append);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return text.append(System.lineSeparator()).toString();
         // --end-->
     }
 
@@ -50,6 +68,10 @@ class IOTest {
 
         // TODO: please write `firstValue` and `pi` to `filePath`
         // <--start
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filePath.toString()))) {
+            out.writeInt(firstValue);
+            out.writeDouble(pi);
+        }
         // --end-->
 
         int actualFirstValue = 0;
@@ -57,6 +79,11 @@ class IOTest {
 
         // TODO: please read `actualFirstValue` and `actualPi` from `filePath`
         // <--start
+
+        try (DataInputStream in = new DataInputStream(new FileInputStream(filePath.toString()))) {
+            actualFirstValue = in.readInt();
+            actualPi = in.readDouble();
+        }
         // --end-->
 
         assertEquals(firstValue, actualFirstValue);

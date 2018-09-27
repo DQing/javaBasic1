@@ -3,6 +3,7 @@ package com.cultivation.javaBasic;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,12 +16,15 @@ class DateTimeTest {
 
         // TODO: please measure the execution time of `delayOneSecond` using `Instant` and `Duration`
         // <--start
+        Instant start = Instant.now();
         // --end-->
 
         delayOneSecond();
 
         // TODO: please measure the execution time of `delayOneSecond` using `Instant` and `Duration`
         // <--start
+        Instant end = Instant.now();
+        elapsed = Duration.between(start, end);
         // --end-->
 
         assertEquals(1, elapsed.getSeconds());
@@ -33,7 +37,7 @@ class DateTimeTest {
 
         // TODO: please modify the following code to pass the test
         // <--start
-        final LocalDate expected = null;
+        final LocalDate expected = LocalDate.of(2016, 2, 29);
         // --end-->
 
         assertEquals(expected, localDate);
@@ -46,7 +50,7 @@ class DateTimeTest {
 
         // TODO: please get the next Tuesday or the same day if today is Tuesday
         // <--start
-        LocalDate nextTuesday = null;
+        LocalDate nextTuesday = date.plusDays(4);
         // --end-->
 
         final LocalDate expected = LocalDate.of(2016, 1, 5);
@@ -61,7 +65,7 @@ class DateTimeTest {
 
         // TODO: please give expected local time directly.
         // <--start
-        final LocalTime expected = null;
+        final LocalTime expected = LocalTime.of(6, 30);
         // --end-->
 
         assertEquals(expected, wakeUpTime);
@@ -71,17 +75,17 @@ class DateTimeTest {
     @Test
     void should_correctly_calculate_daylight_saving_time() {
         ZonedDateTime meeting = ZonedDateTime.of(
-            LocalDateTime.of(2013, 10, 24, 8, 0, 0),
-            ZoneId.of("Europe/Berlin"));
+                LocalDateTime.of(2013, 10, 24, 8, 0, 0),
+                ZoneId.of("Europe/Berlin"));
 
         // TODO: please arrange the meeting to 7 days later.
         // <--start
-        ZonedDateTime actual = meeting;
+        ZonedDateTime actual = meeting.plusDays(7);
         // --end-->
 
         final ZonedDateTime expected = ZonedDateTime.of(
-            LocalDateTime.of(2013, 10, 31, 8, 0, 0),
-            ZoneId.of("Europe/Berlin"));
+                LocalDateTime.of(2013, 10, 31, 8, 0, 0),
+                ZoneId.of("Europe/Berlin"));
 
         assertEquals(expected, actual);
     }
@@ -90,12 +94,12 @@ class DateTimeTest {
     @Test
     void should_format_to_iso_date_time() {
         ZonedDateTime beijingTime = ZonedDateTime.of(
-            LocalDateTime.of(2018, 8, 3, 0, 0, 0),
-            ZoneId.of("Asia/Shanghai"));
+                LocalDateTime.of(2018, 8, 3, 0, 0, 0),
+                ZoneId.of("Asia/Shanghai"));
 
         // TODO: please format date time to ISO 8601 Date Time with Offset Information
         // <--start
-        String formatted = null;
+        String formatted = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(beijingTime);
         // --end-->
 
         final String expect = "2018-08-03T00:00:00+08:00";
@@ -110,12 +114,12 @@ class DateTimeTest {
 
         // TODO: please parse the date time string (ISO Offset format).
         // <--start
-        ZonedDateTime parsed = null;
+        ZonedDateTime parsed = ZonedDateTime.parse(expect);
         // --end-->
 
         ZonedDateTime expected = ZonedDateTime.of(
-            LocalDateTime.of(2018, 8, 3, 0, 0, 0),
-            ZoneId.of("Asia/Shanghai"));
+                LocalDateTime.of(2018, 8, 3, 0, 0, 0),
+                ZoneId.of("Asia/Shanghai"));
 
         // What is the behavior if we use assertEquals?
         assertTrue(parsed.isEqual(expected));

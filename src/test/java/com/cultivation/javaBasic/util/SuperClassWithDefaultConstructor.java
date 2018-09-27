@@ -7,12 +7,20 @@ import java.util.List;
 public class SuperClassWithDefaultConstructor {
     private final List<String> logs = new ArrayList<>();
 
-    void addLog(String log) { logs.add(log); }
+    void addLog(String log) {
+        logs.add(log);
+    }
 
-    public String[] getLogs() { return logs.toArray(new String[0]); }
+    public String[] getLogs() {
+        return logs.toArray(new String[0]);
+    }
 
-    public SuperClassWithDefaultConstructor() { addLog("SuperClassWithDefaultConstructor.constructor()"); }
+    public SuperClassWithDefaultConstructor() {
+        addLog("SuperClassWithDefaultConstructor.constructor()");
+    }
+
     public SuperClassWithDefaultConstructor(String name) {
+        System.out.println(name);
         addLog("SuperClassWithDefaultConstructor.constructor(String)");
     }
 }

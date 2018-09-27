@@ -1,9 +1,6 @@
 package com.cultivation.javaBasicExtended.myUnitTestFramework;
 
-import com.cultivation.javaBasicExtended.myUnitTestFramework.exampleTests.WithMultipleFailures;
-import com.cultivation.javaBasicExtended.myUnitTestFramework.exampleTests.WithOneFailureTestMethod;
-import com.cultivation.javaBasicExtended.myUnitTestFramework.exampleTests.WithOneTestMethod;
-import com.cultivation.javaBasicExtended.myUnitTestFramework.exampleTests.WithoutTestMethod;
+import com.cultivation.javaBasicExtended.myUnitTestFramework.exampleTests.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,7 +16,6 @@ class UnitTestRunnerTest {
     @Test
     void should_run_success_unit_test() {
         UnitTestRunningResult result = runTest(WithOneTestMethod.class);
-
         assertTrue(result.isSuccess());
         assertNull(result.getReason());
     }
@@ -43,6 +39,7 @@ class UnitTestRunnerTest {
         UnitTestRunningResult result = runTest(WithOneFailureTestMethod.class);
 
         assertFalse(result.isSuccess());
+        System.out.println("result===" + result.getReason());
         assertEquals("Please see details", result.getReason());
     }
 
@@ -83,9 +80,16 @@ class UnitTestRunnerTest {
 
     private void assertFailure(List<TestResultItem> details, String methodName, String expectedReason) {
         TestResultItem firstResult = details.stream().filter(d -> d.getTestMethod().equals(methodName))
-            .findFirst().orElse(null);
+                .findFirst().orElse(null);
         assertNotNull(firstResult);
         assertFalse(firstResult.isSuccess());
         assertEquals(expectedReason, firstResult.getReason());
     }
+
+    @Test
+    void should_return_false() {
+        UnitTestRunningResult result = runTest(WithOneNoAnnotaTestMethod.class);
+        assertEquals(0, result.getDetails().size());
+    }
+
 }

@@ -1,11 +1,7 @@
 package com.cultivation.javaBasic.showYourIntelligence;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.Objects;
-
 @SuppressWarnings("unused")
-public class PersonForEquals {
+public class PersonForEquals implements Comparable {
     private final String name;
     private final short yearOfBirth;
 
@@ -35,8 +31,19 @@ public class PersonForEquals {
     @Override
     public boolean equals(Object obj) {
         // TODO: please modify the following code to pass the test
-        // <--start
-        throw new NotImplementedException();
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+        PersonForEquals person = (PersonForEquals) obj;
+        boolean nameSame = person.getName().equals(this.getName());
+        boolean yearOfBirthSame = person.getYearOfBirth() == this.getYearOfBirth();
+        return nameSame && yearOfBirthSame;
         // --end-->
     }
 
@@ -44,7 +51,28 @@ public class PersonForEquals {
     public int hashCode() {
         // TODO: please modify the following code to pass the test
         // <--start
-        throw new NotImplementedException();
+        int result = 1;
+        result = 31 * result + yearOfBirth;
+        result = 31 * result + name.hashCode();
+        return result;
+//        return Objects.hash(name, yearOfBirth);
         // --end-->
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        if (o == null) {
+            throw new IllegalArgumentException();
+        }
+        PersonForEquals person = (PersonForEquals) o;
+        int compare = getName().compareTo(person.getName());
+        if (compare != 0) {
+            return compare;
+        }
+        if (getYearOfBirth() == person.getYearOfBirth()) {
+            return 0;
+        }
+        return yearOfBirth - person.yearOfBirth > 0 ? 1 : -1;
     }
 }

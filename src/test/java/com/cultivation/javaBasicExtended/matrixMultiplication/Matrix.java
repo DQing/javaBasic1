@@ -9,21 +9,61 @@ import java.util.Objects;
 class Matrix {
     private final int[][] storage;
 
-    public int rows() {return storage.length;}
+    public int rows() {
+        return storage.length;
+    }
 
-    public int columns() {return storage[0].length;}
+    public int columns() {
+        return storage[0].length;
+    }
 
     public Matrix(int[][] matrixArray) {
-        // TODO: please implement the constructor of a matrix.
-        // <--start
-        throw new NotImplementedException();
-        // --end-->
+        if (matrixArray == null) {
+            throw new IllegalArgumentException("Raw matrix is null");
+        }
+        if (matrixArray.length == 0) {
+            throw new IllegalArgumentException("Raw matrix contains 0 row");
+        }
+
+        boolean anyMatch = Arrays.stream(matrixArray).anyMatch(Objects::isNull);
+        if (anyMatch) {
+            throw new IllegalArgumentException("Raw matrix contains null row");
+        }
+        boolean match = Arrays.stream(matrixArray).anyMatch(row -> row.length == 0);
+        if (match) {
+            throw new IllegalArgumentException("At least one row of raw matrix contains 0 column");
+        }
+        int column = matrixArray[0].length;
+        boolean match1 = Arrays.stream(matrixArray).anyMatch(row -> row.length != column);
+        if (match1) {
+            throw new IllegalArgumentException("Raw matrix is not rectangle");
+        }
+        storage = matrixArray;
     }
 
     public static Matrix multiply(Matrix left, Matrix right) {
         // TODO: please implement the method to pass the tests.
         // <--start
-        throw new NotImplementedException();
+        if (left == null || right == null) {
+            throw new IllegalArgumentException();
+        }
+        if (left.columns() != right.rows()) {
+            throw new IllegalArgumentException();
+        }
+        int[][] max = new int[left.rows()][right.columns()];
+
+        for (int leftIndex = 0; leftIndex < left.rows(); leftIndex++) {
+            for (int rightIndex = 0; rightIndex < right.columns(); rightIndex++) {
+                int multiplyIndex = 0;
+                for (int i = 0; i < right.rows(); i++) {
+                    int leftValue = left.getRow(leftIndex)[i];
+                    int rightValue = right.getRow(i)[rightIndex];
+                    multiplyIndex += leftValue * rightValue;
+                }
+                max[leftIndex][rightIndex] = multiplyIndex;
+            }
+        }
+        return new Matrix(max);
         // --end-->
     }
 
@@ -33,15 +73,23 @@ class Matrix {
     // --end->
 
     public int[] getRow(int rowIndex) {
-        if (rowIndex < 0 || rowIndex >= rows()) { throw new IllegalArgumentException(); }
+        if (rowIndex < 0 || rowIndex >= rows()) {
+            throw new IllegalArgumentException();
+        }
         return storage[rowIndex];
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) { return false; }
-        if (this == obj) { return true; }
-        if (Matrix.class != obj.getClass()) { return false; }
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (Matrix.class != obj.getClass()) {
+            return false;
+        }
 
         Matrix matrix = (Matrix) obj;
         if (rows() != matrix.rows() || columns() != matrix.columns()) {
@@ -50,7 +98,9 @@ class Matrix {
 
         int rows = rows();
         for (int rowIndex = 0; rowIndex < rows; ++rowIndex) {
-            if (!Arrays.equals(getRow(rowIndex), matrix.getRow(rowIndex))) { return false; }
+            if (!Arrays.equals(getRow(rowIndex), matrix.getRow(rowIndex))) {
+                return false;
+            }
         }
 
         return true;
@@ -71,7 +121,7 @@ class Matrix {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         Arrays.stream(storage)
-            .forEach(row -> formatRow(builder, row));
+                .forEach(row -> formatRow(builder, row));
         return builder.toString();
     }
 

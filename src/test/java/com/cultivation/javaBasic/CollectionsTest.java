@@ -29,7 +29,9 @@ class CollectionsTest {
         // TODO: you could ONLY use `Iterator.hasNext` and `Iterator.next` API to copy items to a `List`. No `for` is
         // allowed.
         // <--start
-
+        while (iterator.hasNext()) {
+            list.add(iterator.next());
+        }
         // --end-->
 
         return list;
